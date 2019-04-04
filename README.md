@@ -122,7 +122,7 @@ you should paste:
 ```
 #progetto roccella
 "gazebo-MBZIRColo":{
-    "waf_target": "bin/arducopter", #fotter gay
+    "waf_target": "bin/arducopter",
     "default_params_filename":["default_params/copter.parm",
                                 "MBZIRC-provaParams/gazebo-MBZIRColo.parm"],
 },
