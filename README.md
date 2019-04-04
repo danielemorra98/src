@@ -107,7 +107,6 @@ catkin_init_workspace
 cd ..
 rm -r src
 git clone https://github.com/Bochicchio3/src.git
-git checkout Newsrc
 cd ..
 catkin build
 source devel/setup.bash
