@@ -1,24 +1,25 @@
 # MBZIRC SSSUP PACKAGE
 
+## WARNING: INSTRUCTION FOR UBUNTU 18.04 AND ROS MELODIC
+If you have Ubuntu 16.04 it may still work but you have to change commands accordingly
+
 ##  1) Install Required Components
 ```
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
 sudo apt update
-sudo apt-get install ros-melodic-desktop-full ros-melodic-joy ros-melodic-octomap-ros python-wstool python-catkin-tools protobuf-compiler libgoogle-glog-dev
+sudo apt-get install ros-melodic-desktop-full ros-melodic-joy ros-melodic-octomap-ros python-wstool python-catkin-tools 
+sudo apt-get install protobuf-compiler libgoogle-glog-dev
 sudo apt-get install geographiclib-tools 
 sudo apt-get install libgeographic-dev
 sudo apt-get install ros-melodic-opencv-apps
+sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
+sudo apt-get install git gitk git-gui 
+sudo apt-get install build-essential cmake git libboost-all-dev mercurial libcegui-mk2-dev libopenal-dev libswscale-dev libavformat-dev libavcodec-dev  libltdl3-dev libqwt-dev ruby libusb-1.0-0-dev libbullet-dev libhdf5-dev libgraphviz-dev libgdal-dev
 sudo rosdep init
 rosdep
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
-sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
-sudo apt-get update
-sudo apt-get install git
-sudo apt-get install gitk git-gui
-sudo apt-get update
-sudo apt-get install build-essential cmake git libboost-all-dev mercurial libcegui-mk2-dev libopenal-dev libswscale-dev libavformat-dev libavcodec-dev  libltdl3-dev libqwt-dev ruby libusb-1.0-0-dev libbullet-dev libhdf5-dev libgraphviz-dev libgdal-dev
 ```
 -------------------------------------------------
 ## 2) Install Ardupilot + SITL:
@@ -98,8 +99,39 @@ gazebo --verbose worlds/iris_arducopter_demo.world
 ```
 WARNING: This command works only if you downloaded gazebo models
 
+## 5) Modify ARDUCOPTER Directory
+
+You must do two operations in arducopter: modify the parameters for the custom drone and add the custom frame.
+Aggiungere i parametri mav relativi al drone 
+ 
+In ```ardupilot/Tools/autotest```
+ 
+##### 5.1)Copy the folder MBZIRC-provaParams
+ 
+In ```ardupilot/Tools/autotest/pysim```
+#####  5.2)Modify '''vehicleinfo.py''' :
+Right under:
+ ```
+"gazebo-iris": {
+   "waf_target": "bin/arducopter",
+   "default_params_filename": ["default_params/copter.parm",
+                               "default_params/gazebo-iris.parm"],
+},
+```
+you should paste:
+```
+#progetto roccella
+"gazebo-MBZIRColo":{
+    "waf_target": "bin/arducopter", #fotter gay
+    "default_params_filename":["default_params/copter.parm",
+                                "MBZIRC-provaParams/gazebo-MBZIRColo.parm"],
+},
+```
+From  ```ardupilot/ArduCopter``` try to launch ```sim_vehicle.py --console -f gazebo-MBZIRColo``` 
+After compiling, it should be waiting for an heartbeat (from Gazebo) on the port 127.0.0.1:... 
+
 ------------------------------------------------------------
-## 5) Create the new catkin_ws and clone required packages
+## 6) Create the new catkin_ws and clone required packages
 ```
 mkdir -p catkin_ws/src
 cd catkin_ws/src
