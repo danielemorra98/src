@@ -81,9 +81,7 @@ Note that, if you go to gazebosim.org, you may also download the .deb pacage, or
 in a terminal, ```gazebo --verbose```
 
 
-
------------------------
-# 4) Download gazebo model database 
+## 4) Download gazebo model database 
 
 Reference:
 https://web.archive.org/web/20180503141535/http://ardupilot.org/dev/docs/using-gazebo-simulator-with-sitl.html
@@ -101,13 +99,12 @@ source ~/.bashrc
 
 #####  4.1) Verify is Ardupilot+Sitl is working WITH GAZEBO
 
-# 4.1.1)
 In one terminal, enter the ArduCopter directory and start the SITL simulation:
 ```
 cd ~/ardupilot/ArduCopter
 sim_vehicle.py -f gazebo-iris -D --console --map
 ```
-#####  4.1.2) In another terminal start Gazebo, with the world including the iris quadcopter:
+#####  4.2) In another terminal start Gazebo, with the world including the iris quadcopter:
 ```
 cd ~/gazebo
 gazebo --verbose worlds/iris_arducopter_demo.world
