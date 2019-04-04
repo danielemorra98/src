@@ -10,7 +10,7 @@ sudo apt-get install geographiclib-tools
 sudo apt-get install libgeographic-dev
 sudo apt-get install ros-melodic-opencv-apps
 sudo rosdep init
-rosdep
+rosdep update
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
@@ -55,7 +55,7 @@ http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html
 http://ardupilot.org/dev/docs/building-setup-linux.html#building-setup-linux
 
 
-## 3) Verify if Ardupilot is working
+## 3) Verify if Ardupilot+Sitl is working standalone
 ```
 cd ardupilot/ArduCopter
 sim_vehicle.py -j4 --map --console
@@ -66,9 +66,24 @@ mode GUIDED
 arm throttle
 takeoff 100 
 ```
-Eventually right click in the Mavlink console and use the fly to function
+Eventually right click in the Mavlink map and use the fly to function
 
-## 4) Verify if SITL is working
+-------------------------
+# we missed a step ;) Download gazebo
+
+```curl -sSL http://get.gazebosim.org | sh```
+Reference:http://gazebosim.org/tutorials?tut=install_ubuntu&cat=install
+
+Note that, if you go to gazebosim.org, you may also download the .deb pacage, or compile gazebo from source. THe one above is the easiest way.
+
+# Test gazebo
+in a terminal, ```gazebo --verbose```
+
+# ATTENTION: POSSIBLE ERROR!
+If gazebo doesn't start, starts with a black screen or throws some errors like those ones, it may be caused by your graphical card settings/problem/performance/drivers. For istance, it happened on virtual machines, and on old crappy machines.
+
+-----------------------
+# 4) Download gazebo model database 
 
 Reference:
 https://web.archive.org/web/20180503141535/http://ardupilot.org/dev/docs/using-gazebo-simulator-with-sitl.html
@@ -84,27 +99,47 @@ echo 'export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:~/gazebo_ws/gazebo_models' >
 source ~/.bashrc
 ```
 
-#####  4.1) Start the Simulator
+#####  4.1) Verify is Ardupilot+Sitl is working WITH GAZEBO
 
+# 4.1.1)
 In one terminal, enter the ArduCopter directory and start the SITL simulation:
 ```
 cd ~/ardupilot/ArduCopter
 sim_vehicle.py -f gazebo-iris -D --console --map
 ```
-#####  4.2) In another terminal start Gazebo:
+#####  4.1.2) In another terminal start Gazebo, with the world including the iris quadcopter:
 ```
 cd ~/gazebo
 gazebo --verbose worlds/iris_arducopter_demo.world
 ```
-WARNING: This command works only if you downloaded gazebo models
+WARNING: This command shold only work if you downloaded gazebo models
+Plus, you may need to export the path to the gazebo model database in your bashrc;
+Otherwise, you could(theoretically, but sitll it isn't tested) skip step 4.0, and start gazebo alone.
+It should prompt you that it's downloading the model database from the internet, and that it may (and will) take some time. 
+After that, gazebo is probably gonna save the downloaded models into ~/.gazebo/gazebo_models, or something similar
 
 ------------------------------------------------------------
 ## 5) Create the new catkin_ws and clone required packages
 ```
 mkdir -p catkin_ws/src
-cd catkin_ws/src
-catkin_init_workspace
-cd ..
+
+```
+-----------------------
+# cd catkin_ws/src 
+# catkin_init_workspace
+these instruction needs verification!
+i suggest 
+
+```cd catkikin_ws
+catkin_init_workspace 
+```
+or, better/you can do both
+```catkin init --workspace .
+```
+
+---------------------
+
+```cd ..
 rm -r src
 git clone https://github.com/Bochicchio3/src.git
 cd ..
