@@ -107,6 +107,7 @@ Aggiungere i parametri mav relativi al drone
 In ```ardupilot/Tools/autotest```
  
 ##### 5.1)Copy the folder MBZIRC-provaParams
+You find this folder in ~/catkin_ws/src/mbzirc_SITL
  
 In ```ardupilot/Tools/autotest/pysim```
 #####  5.2)Modify '''vehicleinfo.py''' :
