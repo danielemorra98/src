@@ -70,18 +70,17 @@ takeoff 100
 Eventually right click in the Mavlink map and use the fly to function
 
 -------------------------
-# we missed a step ;) Download gazebo
+# Optional if not Full install of ROS: Download gazebo
 
 ```curl -sSL http://get.gazebosim.org | sh```
 Reference:http://gazebosim.org/tutorials?tut=install_ubuntu&cat=install
 
 Note that, if you go to gazebosim.org, you may also download the .deb pacage, or compile gazebo from source. THe one above is the easiest way.
 
-# Test gazebo
+###### Test gazebo
 in a terminal, ```gazebo --verbose```
 
-# ATTENTION: POSSIBLE ERROR!
-If gazebo doesn't start, starts with a black screen or throws some errors like those ones, it may be caused by your graphical card settings/problem/performance/drivers. For istance, it happened on virtual machines, and on old crappy machines.
+
 
 -----------------------
 # 4) Download gazebo model database 
@@ -155,27 +154,11 @@ After compiling, it should be waiting for an heartbeat (from Gazebo) on the port
 ## 6) Create the new catkin_ws and clone required packages
 ```
 mkdir -p catkin_ws/src
-
-```
------------------------
-# cd catkin_ws/src 
-# catkin_init_workspace
-these instruction needs verification!
-i suggest 
-
-```cd catkikin_ws
-catkin_init_workspace 
-```
-or, better/you can do both
-```catkin init --workspace .
-```
-
----------------------
-
-```cd ..
+cd catkin_ws/src 
+catkin_init_workspace
+cd ..
 rm -r src
 git clone https://github.com/Bochicchio3/src.git
-cd ..
 catkin build
 source devel/setup.bash
 ```
@@ -189,6 +172,9 @@ echo 'export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:/usr/lib/x86_64-linux-gnu/
 ##### USEFUL HINTS:
 
 IF YOU ARE RUNNING ON VIRTUAL MACHINE RUN
+
+
+If gazebo doesn't start, starts with a black screen or throws some errors like those ones, it may be caused by your graphical card settings/problem/performance/drivers. For istance, it happened on virtual machines, and on old crappy machines.
 ``` 
 echo `export SVGA_VGPU10=0`>> ~/.bashrc
 ```
